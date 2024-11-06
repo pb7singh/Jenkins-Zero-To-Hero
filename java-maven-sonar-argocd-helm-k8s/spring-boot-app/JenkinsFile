@@ -69,7 +69,7 @@ pipeline {
     stage('Clean Workspace') {
       steps {
         // Deleting the .git directory in the workspace to clean up for the next build
-        sh 'rm -rf /var/lib/jenkins/workspace/ulitmate-cicd/java-maven-sonar-argocd-helm-k8s'
+        sh 'rm -rf /var/lib/jenkins/workspace/ulitmate-cicd/*'
       }
     }
   }

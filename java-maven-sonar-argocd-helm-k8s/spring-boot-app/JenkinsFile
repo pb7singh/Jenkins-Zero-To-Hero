@@ -9,15 +9,15 @@ pipeline {
     stage('Checkout') {
       steps {
         sh 'echo passed! Oh yeah Baby'
-        //git branch: 'main', url: 'https://github.com/iam-veeramalla/Jenkins-Zero-To-Hero.git'
+        //git branch: 'main', url: 'https://github.com/iam-veeramalla/Jenkins-ZeroToHero.git'
       }
     }
     stage('Build and Test') {
       steps {
         sh 'ls -ltr'
-        // build the project and create a JAR file
+        // build the project, run tests, and create a JAR file
         sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean test'  // Runs tests
-        sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package'
+        sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package'  // Creates JAR file
       }
     }
     stage('Static Code Analysis') {
@@ -64,6 +64,13 @@ pipeline {
                 '''
             }
         }
+    }
+    // Add this last stage to delete the .git directory after all steps are complete
+    stage('Clean Workspace') {
+      steps {
+        // Deleting the .git directory in the workspace to clean up for the next build
+        sh 'rm -rf java-maven-sonar-argocd-helm-k8s/spring-boot-app/.git'
+      }
     }
   }
 }
